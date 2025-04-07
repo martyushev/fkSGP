@@ -3,7 +3,7 @@
 MATLAB/Julia/Python implementations of the algoritm from
 
 @article{martyushev2025forward,<br />
-&nbsp;&nbsp;&nbsp; title={Forward kinematics of the general Stewart--Gough platform by elimination templates},<br />
+&nbsp;&nbsp;&nbsp; title={Forward kinematics of a general Stewart--Gough platform by elimination templates},<br />
 &nbsp;&nbsp;&nbsp; author={Martyushev, Evgeniy},<br />
 &nbsp;&nbsp;&nbsp; journal={},<br />
 &nbsp;&nbsp;&nbsp; volume={},<br />
