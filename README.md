@@ -6,7 +6,7 @@ A Stewart-Gough platform (SGP) is a type of parallel manipulator used in various
   <img src="SGP.png" width="32%" />
 </p>
 <p align="center">
-  <bf>Figure 1:</bf> The general Stewart-Gough platform
+  **Figure 1:** The general Stewart-Gough platform
 </p>
 
 The forward (or direct) kinematics problem for a Stewart-Gough platform involves determining the position and orientation of the movable platform given the lengths of the six extensible legs. This problem is inherently complex due to the parallel structure of the platform, which results in a system of non-linear equations.
