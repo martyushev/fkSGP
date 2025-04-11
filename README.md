@@ -2,7 +2,9 @@
 
 <p float="middle">
   <img src="SGP.png" width="32%" />
-  <em>General Stewart-Gough platform</em>
+</p>
+<p float="middle">
+<em>General Stewart-Gough platform</em>
 </p>
 
 MATLAB/Julia/Python implementations of the algoritm from
