@@ -1,6 +1,6 @@
 # Forward kinematics of a general Stewart-Gough platform
 
-A Stewart-Gough platform is a type of parallel manipulator used in various applications including flight simulators, robotic manipulators, haptic devices, surgical robots, radio telescopes, etc. The SGP consists of a fixed base and a movable platform connected by six extensible legs. Each leg is connected to both the base and the platform through universal (spherical) joints, allowing for a wide range of motion, see Figure. The lengths of the legs are typically controlled by actuators, such as hydraulic or pneumatic cylinders, which can extend or retract the legs.
+A Stewart-Gough platform (SGP) is a type of parallel manipulator used in various applications including flight simulators, robotic manipulators, haptic devices, surgical robots, radio telescopes, etc. The SGP consists of a fixed base and a movable platform connected by six extensible legs. Each leg is connected to both the base and the platform through universal (spherical) joints, allowing for a wide range of motion, see Figure. The lengths of the legs are typically controlled by actuators, such as hydraulic or pneumatic cylinders, which can extend or retract the legs.
 
 <p align="center">
   <img src="SGP.png" width="32%" />
