@@ -1,10 +1,8 @@
 # Forward kinematics of a general Stewart-Gough platform
 
-<p float="middle">
+<p align="center">
   <img src="SGP.png" width="32%" />
-</p>
-<p float="middle">
-<em>General Stewart-Gough platform</em>
+  <em>General Stewart-Gough platform</em>
 </p>
 
 MATLAB/Julia/Python implementations of the algoritm from
