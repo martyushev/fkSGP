@@ -1,7 +1,7 @@
 # Forward kinematics of a general Stewart-Gough platform
 
 <p float="middle">
-  <img src="SGP.gif" width="32%" />
+  <img src="SGP.png" width="32%" />
   <em>General Stewart-Gough platform</em>
 </p>
 
