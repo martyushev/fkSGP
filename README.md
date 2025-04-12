@@ -11,7 +11,7 @@ A Stewart-Gough platform (SGP) is a type of parallel manipulator used in various
 
 The forward (or direct) kinematics problem for a Stewart-Gough platform involves determining the position and orientation of the movable platform given the lengths of the six extensible legs. This problem is inherently complex due to the parallel structure of the platform, which results in a system of non-linear equations.
 
-MATLAB/Julia/Python implementations of the algorithm from
+This repository contains the MATLAB/Julia/Python implementations of the algorithm from
 
 @article{martyushev2025forward,<br />
 &nbsp;&nbsp;&nbsp; title={Forward kinematics of a general Stewart--Gough platform by elimination templates},<br />
@@ -24,7 +24,7 @@ MATLAB/Julia/Python implementations of the algorithm from
 &nbsp;&nbsp;&nbsp; publisher={}<br />
 }
 
-If you use this code, please cite the above paper.
+If you use this code in your research, please cite the above paper.
 
 The implementations have been tested on
 * MATLAB R2019b
