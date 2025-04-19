@@ -23,7 +23,6 @@ If you use this code in your research, please cite the following paper:
 &nbsp;&nbsp;&nbsp; number={},<br/>
 &nbsp;&nbsp;&nbsp; pages={},<br/>
 &nbsp;&nbsp;&nbsp; year={2025},<br/>
-&nbsp;&nbsp;&nbsp; publisher={}<br/>
 }
 
 The implementations have been tested on
