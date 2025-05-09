@@ -24,5 +24,6 @@ def test_fkSGP():
     Rt,err = solver_fkSGP(X,x,L)
 
     for i in range(Rt.shape[0]):
+        print(f"{'Solution #':s}{i+1:d}:")
         print(Rt[i,:,:],'\n')
-    print(err)
+    print(f"{'Error:':s} {err}")

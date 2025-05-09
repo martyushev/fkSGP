@@ -16,5 +16,8 @@ L = 2.5*rand(6,1)+0.5;
 
 [Rt,err] = solver_fkSGP(X,x,L);
 
-for i = 1:size(Rt,2); disp(Rt{i}); end
-disp(err);
+for i = 1:size(Rt,2)
+    fprintf('%s%d:\n', 'Solution #', i);
+    disp(Rt{i});
+end
+fprintf('%s%g\n', 'Error: ', err);

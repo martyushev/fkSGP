@@ -1,6 +1,7 @@
 using LinearAlgebra
 using SparseArrays
 using Random
+using Printf
 include("solver_fkSGP.jl")
 
 
@@ -31,5 +32,8 @@ end
 
 Rt,err = test_fkSGP();
 
-for i in 1:size(Rt,1); display(Rt[i,:,:]); end
-display(err)
+for i in 1:size(Rt,1)
+    @printf "\n%s%d:\n" "Solution #" i
+    display(Rt[i,:,:])
+end
+@printf "\n%s%g\n" "Error: " err
