@@ -1,7 +1,7 @@
 import numpy as np
 from numpy.linalg import norm
 from scipy.sparse import csr_matrix
-from scipy.linalg import lu, solve, eig
+from scipy.linalg import lu, solve, qr, eig
 
 
 
@@ -160,9 +160,11 @@ def red_293x362_fkSGP(C,L0):
     M = M[:,218:]-M[:,:218]@M0 # Schur complement reduction
     M = M.toarray()
 
-    p,L,_ = lu(M[:,:255],p_indices=True)
-    p = np.argsort(p)
-    M = M[p[-38:],255:]-L[-38:,:]@solve(L[:255,:],M[p[:255],255:])
+    #p,L,_ = lu(M[:,:255],p_indices=True)
+    #p = np.argsort(p)
+    #M = M[p[-38:],255:]-L[-38:,:]@solve(L[:255,:],M[p[:255],255:])
+    Q,_ = qr(M[:,:255])
+    M = Q[:,-38:].T@M[:,255:]
 
     T0 = np.zeros((69,69))
     T0[[3,4,8,16,17,21,22,24,25,27,28,29,33,34,36,37,39,40,42,43,44,48,49,51,52,54,55,56,57,59,60,61,62,63,65,66,67,68],:] = -M[:,38:]
