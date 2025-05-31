@@ -16,8 +16,13 @@ The forward kinematics problem for a Stewart-Gough platform involves determining
 This repository contains MATLAB, Julia, and Python implementations of the elimination template based solution to the forward kinematics problem for a general SGP. Key advantages:
 * computation of all 40 solutions (real and complex);
 * simultaneous maintenance of numerical accuracy and computational efficiency;
-* reliance on standard linear algebra decompositions (PLU and QZ);
+* reliance on standard linear algebra decompositions (QR and QZ);
 * extension to two special SGP cases (6-5 and 6P-6) without modification.
+
+The implementations have been tested on
+* MATLAB R2019b
+* Julia 1.11.3
+* Python 3.13.2 + numpy-2.2.2 + scipy-1.15.1
 
 If you use this code in your research, please cite the following paper:
 
@@ -30,8 +35,3 @@ If you use this code in your research, please cite the following paper:
 &nbsp;&nbsp;&nbsp; pages={},<br/>
 &nbsp;&nbsp;&nbsp; year={2025},<br/>
 }
-
-The implementations have been tested on
-* MATLAB R2019b
-* Julia 1.11.3
-* Python 3.13.2 + numpy-2.2.2 + scipy-1.15.1
