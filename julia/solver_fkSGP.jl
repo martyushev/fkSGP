@@ -139,6 +139,7 @@ function coefs_fkSGP(X,x,L)
     C = C./repeat(sqrt.(sum(C.^2,dims=2)),1,size(C,2))
 
     U(a,b,c,u,v,w) = [a^2*u^2,b^2*u^2,c^2*u^2,a^2*v^2,b^2*v^2,c^2*v^2,a^2*w^2,b^2*w^2,c^2*w^2,u*a^2,u*b*a,u*b^2,u*c*a,u*c^2,v*a^2,v*b*a,v*b^2,v*c*b,v*c^2,w*a^2,w*b^2,w*c*a,w*c*b,w*c^2,a^2,a*b,b^2,a*c,b*c,c^2,b*u,c*u,u^2,a*v,c*v,v^2,a*w,b*w,w^2,a,b,c,u,v,w,1]
+    #U(S,n) = [(S[1,:].^2).*(S[4,:].^2) (S[2,:].^2).*(S[4,:].^2) (S[3,:].^2).*(S[4,:].^2) (S[1,:].^2).*(S[5,:].^2) (S[2,:].^2).*(S[5,:].^2) (S[3,:].^2).*(S[5,:].^2) (S[1,:].^2).*(S[6,:].^2) (S[2,:].^2).*(S[6,:].^2) (S[3,:].^2).*(S[6,:].^2) S[4,:].*(S[1,:].^2) S[4,:].*S[2,:].*S[1,:] S[4,:].*(S[2,:].^2) S[4,:].*S[3,:].*S[1,:] S[4,:].*(S[3,:].^2) S[5,:].*(S[1,:].^2) S[5,:].*S[2,:].*S[1,:] S[5,:].*(S[2,:].^2) S[5,:].*S[3,:].*S[2,:] S[5,:].*(S[3,:].^2) S[6,:].*(S[1,:].^2) S[6,:].*(S[2,:].^2) S[6,:].*S[3,:].*S[1,:] S[6,:].*S[3,:].*S[2,:] S[6,:].*(S[3,:].^2) S[1,:].^2 S[1,:].*S[2,:] S[2,:].^2 S[1,:].*S[3,:] S[2,:].*S[3,:] S[3,:].^2 S[2,:].*S[4,:] S[3,:].*S[4,:] S[4,:].^2 S[1,:].*S[5,:] S[3,:].*S[5,:] S[5,:].^2 S[1,:].*S[6,:] S[2,:].*S[6,:] S[6,:].^2 S[1,:] S[2,:] S[3,:] S[4,:] S[5,:] S[6,:] ones(n,1)]
 
     return C,U,RR
 
@@ -180,6 +181,16 @@ end
 
 function S2Rt(S,C,U,RR)
 
+    #k = 40 # number of true roots
+    #e = U(S,size(S,2))
+    #e = e./repeat(sqrt.(sum(e.*conj(e),dims=2)),1,size(e,2))
+    #e = C*e'
+    #e = real(vec(sum(e.*conj(e),dims=1)))
+    #I = sortperm(e)
+    #e = e[I]
+    #S = S[:,I[1:k]] # filter out false roots
+    #err = sqrt(sum(e[1:k]))
+
     n = size(S,2)
     k = 40 # number of true roots
     e = ones(n)
@@ -197,11 +208,8 @@ function S2Rt(S,C,U,RR)
     Rt = Array{ComplexF64,3}(undef,size(S,2),3,4)
 
     for i in 1:size(S,2)
-        p = S[1:3,i]
-        R = cayley(p)
-        t = S[4:6,i]
-        Rt[i,:,1:3] = RR[1,:,:]*R*RR[2,:,:]'
-        Rt[i,:,4] = RR[1,:,:]*t
+        Rt[i,:,1:3] = RR[1,:,:]*cayley(S[1:3,i])*RR[2,:,:]'
+        Rt[i,:,4] = RR[1,:,:]*S[4:6,i]
     end
 
     return Rt,err

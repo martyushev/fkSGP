@@ -1,4 +1,5 @@
 import numpy as np
+from time import time
 from python import *
 
 
@@ -21,9 +22,12 @@ def test_fkSGP():
     #x = np.array([[0, 0, 0], [0.542805, 0, 0], [0.956919, -0.528915, 0], [0.665885, -0.353482, 1.402538], [0.478359, 1.158742, 0.107672], [-0.137087, -0.235121, 0.353913]])
     #L = np.array([1, 0.645275, 1.086284, 1.503439, 1.281933, 0.771071])**2
 
+    tic = time()
     Rt,err = solver_fkSGP(X,x,L)
+    tm = time()-tic
 
     for i in range(Rt.shape[0]):
         print(f"{'Solution #':s}{i+1:d}:")
         print(Rt[i,:,:],'\n')
     print(f"{'Error:':s} {err}")
+    print(f"{'Time:':s} {10**3*tm:.2f} {'ms':s}")

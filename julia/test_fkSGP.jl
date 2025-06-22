@@ -24,16 +24,17 @@ function test_fkSGP()
     #x = [0 0 0; 0.542805 0 0; 0.956919 -0.528915 0; 0.665885 -0.353482 1.402538; 0.478359 1.158742 0.107672; -0.137087 -0.235121 0.353913]
     #L = [1; 0.645275; 1.086284; 1.503439; 1.281933; 0.771071].^2
 
-    Rt,err = solver_fkSGP(X,x,L)
+    tm = @elapsed Rt,err = solver_fkSGP(X,x,L)
 
-    return Rt,err
+    return Rt,err,tm
 
 end
 
-Rt,err = test_fkSGP();
+Rt,err,tm = test_fkSGP();
 
 for i in 1:size(Rt,1)
     @printf "\n%s%d:\n" "Solution #" i
     display(Rt[i,:,:])
 end
 @printf "\n%s%g\n" "Error: " err
+@printf "%s%.2f%s\n" "Time: " 10^3*tm " ms"

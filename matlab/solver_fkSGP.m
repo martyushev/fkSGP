@@ -134,7 +134,7 @@ function [C,U,RR] = coefs_fkSGP(X,x,L)
 
     C = C./repmat(sqrt(sum(C.^2,2)),1,size(C,2));
 
-    U = @(a,b,c,u,v,w)[a^2*u^2,b^2*u^2,c^2*u^2,a^2*v^2,b^2*v^2,c^2*v^2,a^2*w^2,b^2*w^2,c^2*w^2,u*a^2,u*b*a,u*b^2,u*c*a,u*c^2,v*a^2,v*b*a,v*b^2,v*c*b,v*c^2,w*a^2,w*b^2,w*c*a,w*c*b,w*c^2,a^2,a*b,b^2,a*c,b*c,c^2,b*u,c*u,u^2,a*v,c*v,v^2,a*w,b*w,w^2,a,b,c,u,v,w,1];
+    U = @(S,n)[S(1,:).^2.*S(4,:).^2; S(2,:).^2.*S(4,:).^2; S(3,:).^2.*S(4,:).^2; S(1,:).^2.*S(5,:).^2; S(2,:).^2.*S(5,:).^2; S(3,:).^2.*S(5,:).^2; S(1,:).^2.*S(6,:).^2; S(2,:).^2.*S(6,:).^2; S(3,:).^2.*S(6,:).^2; S(4,:).*S(1,:).^2; S(4,:).*S(2,:).*S(1,:); S(4,:).*S(2,:).^2; S(4,:).*S(3,:).*S(1,:); S(4,:).*S(3,:).^2; S(5,:).*S(1,:).^2; S(5,:).*S(2,:).*S(1,:); S(5,:).*S(2,:).^2; S(5,:).*S(3,:).*S(2,:); S(5,:).*S(3,:).^2; S(6,:).*S(1,:).^2; S(6,:).*S(2,:).^2; S(6,:).*S(3,:).*S(1,:); S(6,:).*S(3,:).*S(2,:); S(6,:).*S(3,:).^2; S(1,:).^2; S(1,:).*S(2,:); S(2,:).^2; S(1,:).*S(3,:); S(2,:).*S(3,:); S(3,:).^2; S(2,:).*S(4,:); S(3,:).*S(4,:); S(4,:).^2; S(1,:).*S(5,:); S(3,:).*S(5,:); S(5,:).^2; S(1,:).*S(6,:); S(2,:).*S(6,:); S(6,:).^2; S(1,:); S(2,:); S(3,:); S(4,:); S(5,:); S(6,:); ones(1,n)];
 
 end
 
@@ -171,27 +171,21 @@ end
 
 function [Rt,err] = S2Rt(S,C,U,RR)
 
-    n = size(S,2);
     k = 40; % number of true roots
-    e = ones(1,n);
-    for i = 1:n
-        x = num2cell(S(:,i));
-        m = U(x{:}).';
-        e(i) = norm(C*m,'fro')/norm(m,'fro');
-    end
+    e = U(S,size(S,2));
+    e = e./repmat(sqrt(sum(e.*conj(e),1)),size(e,1),1);
+    e = C*e;
+    e = sum(e.*conj(e),1);
     [e,I] = sort(e);
     S = S(:,I(1:k)); % filter out false roots
-    err = norm(e(1:k),'fro');
+    err = sqrt(sum(e(1:k)));
 
     %S = S(:,~any(imag(S))); % uncomment for real roots only
 
     Rt = cell([1,size(S,2)]);
 
     for i = 1:size(S,2)
-        p = S(1:3,i);
-        R = cayley(p);
-        t = S(4:6,i);
-        Rt{i} = [RR{1}*R*RR{2}', RR{1}*t];
+        Rt{i} = [RR{1}*cayley(S(1:3,i))*RR{2}', RR{1}*S(4:6,i)];
     end
 
 end

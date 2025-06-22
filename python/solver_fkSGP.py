@@ -199,11 +199,8 @@ def S2Rt(S,C,U,RR):
     Rt = np.empty((n,3,4),dtype=complex)
 
     for i in range(n):
-        p = S[0:3,i]
-        R = cayley(p)
-        t = S[3:6,i]
-        Rt[i,:,0:3] = RR[0,:,:]@R@RR[1,:,:].T
-        Rt[i,:,3] = RR[0,:,:]@t
+        Rt[i,:,0:3] = RR[0,:,:]@cayley(S[0:3,i])@RR[1,:,:].T
+        Rt[i,:,3] = RR[0,:,:]@S[3:6,i]
 
     return Rt,err
 
