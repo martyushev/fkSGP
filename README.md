@@ -34,7 +34,7 @@ If you use this code in your research, please cite the following paper:
 &nbsp;&nbsp;&nbsp; pages={106170},<br/>
 &nbsp;&nbsp;&nbsp; year={2025},<br/>
 &nbsp;&nbsp;&nbsp; issn={0094-114X},<br/>
-&nbsp;&nbsp;&nbsp; doi={https://doi.org/10.1016/j.mechmachtheory.2025.106170}<br/>
+&nbsp;&nbsp;&nbsp; doi={https://doi.org/10.1016/j.mechmachtheory.2025.106170 }<br/>
 }
 
 Published version: https://www.sciencedirect.com/science/article/pii/S0094114X25002599?dgcid=author
