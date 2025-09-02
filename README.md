@@ -29,9 +29,12 @@ If you use this code in your research, please cite the following paper:
 @article{martyushev2025forward,<br/>
 &nbsp;&nbsp;&nbsp; title={Forward kinematics of a general Stewart--Gough platform by elimination templates},<br/>
 &nbsp;&nbsp;&nbsp; author={Martyushev, Evgeniy},<br/>
-&nbsp;&nbsp;&nbsp; journal={https://arxiv.org/abs/2505.00634 },<br/>
-&nbsp;&nbsp;&nbsp; volume={},<br/>
-&nbsp;&nbsp;&nbsp; number={},<br/>
-&nbsp;&nbsp;&nbsp; pages={},<br/>
+&nbsp;&nbsp;&nbsp; journal={Mechanism and Machine Theory},<br/>
+&nbsp;&nbsp;&nbsp; volume={215},<br/>
+&nbsp;&nbsp;&nbsp; pages={106170},<br/>
 &nbsp;&nbsp;&nbsp; year={2025},<br/>
+&nbsp;&nbsp;&nbsp; issn={0094-114X},<br/>
+&nbsp;&nbsp;&nbsp; doi={https://doi.org/10.1016/j.mechmachtheory.2025.106170}<br/>
 }
+
+Published version: https://www.sciencedirect.com/science/article/pii/S0094114X25002599?dgcid=author
