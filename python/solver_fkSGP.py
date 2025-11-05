@@ -208,13 +208,6 @@ def S2Rt(S,C,U,RR):
 
 def cayley(p):
     id = np.eye(3)
-    R = solve(id-skew(p),id+skew(p))
+    T = np.array([[0, -p[2], p[1]], [p[2], 0, -p[0]], [-p[1], p[0], 0]])
+    R = solve(id-T,id+T)
     return R.T
-
-
-
-def skew(t):
-    T = np.array([[0, -t[2], t[1]],
-                  [t[2], 0, -t[0]],
-                  [-t[1], t[0], 0]])
-    return T

@@ -19,8 +19,8 @@ tic;
 tm = toc;
 
 for i = 1:size(Rt,2)
-    fprintf('%s%d:\n', 'Solution #', i);
+    fprintf('Solution #%d:\n', i);
     disp(Rt{i});
 end
-fprintf('%s%g\n', 'Error: ', err);
-fprintf('%s%.2f%s\n', 'Time: ', 10^3*tm, ' ms');
+fprintf('Error: %g\n', err);
+fprintf('Time: %.2f ms\n', 10^3*tm);

@@ -8,10 +8,9 @@ include("solver_fkSGP.jl")
 
 function test_fkSGP()
 
-    # 6-6 SGP
     X = [zeros(1,3); 4*rand(5,3).-2]
     x = [zeros(1,3); 4*rand(5,3).-2]
-    L = 2.5*rand(6).+0.5
+    L = 2.5.*rand(6).+0.5
 
     # 6-5 SGP
     #x[6,:] = x[5,:]
@@ -32,9 +31,9 @@ end
 
 Rt,err,tm = test_fkSGP();
 
-for i in 1:size(Rt,1)
-    @printf "\n%s%d:\n" "Solution #" i
+for i in axes(Rt,1)
+    @printf "\nSolution #%d:\n" i
     display(Rt[i,:,:])
 end
-@printf "\n%s%g\n" "Error: " err
-@printf "%s%.2f%s\n" "Time: " 10^3*tm " ms"
+@printf "\nError: %.6g\n" err
+@printf "Time: %.2f ms\n" 1e3*tm
