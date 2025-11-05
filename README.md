@@ -37,5 +37,3 @@ If you use this code in your research, please cite the following paper:
 &nbsp;&nbsp;&nbsp; doi={https://doi.org/10.1016/j.mechmachtheory.2025.106170 },<br/>
 &nbsp;&nbsp;&nbsp; url={https://www.sciencedirect.com/science/article/pii/S0094114X25002599 }<br/>
 }
-
-50 days' free access link: https://authors.elsevier.com/a/1liEK,28z4fEHd
