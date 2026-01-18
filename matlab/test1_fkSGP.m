@@ -1,7 +1,9 @@
+clear; clc;
+
 % 6-6 SGP
 X = [zeros(1,3); 4*rand(5,3)-2];
 x = [zeros(1,3); 4*rand(5,3)-2];
-L = 2.5*rand(6,1)+0.5;
+L = 2.5*rand(6,1)+0.5; % squared leg lengths
 
 % 6-5 SGP
 %x(6,:) = x(5,:);
@@ -14,13 +16,15 @@ L = 2.5*rand(6,1)+0.5;
 %x = [0 0 0; 0.542805 0 0; 0.956919 -0.528915 0; 0.665885 -0.353482 1.402538; 0.478359 1.158742 0.107672; -0.137087 -0.235121 0.353913];
 %L = [1; 0.645275; 1.086284; 1.503439; 1.281933; 0.771071].^2;
 
+realOnly = 0;
+
 tic;
-[Rt,err] = solver_fkSGP(X,x,L);
+[Rt,err] = solver_fkSGP(X,x,L,realOnly);
 tm = toc;
 
 for i = 1:size(Rt,2)
     fprintf('Solution #%d:\n', i);
     disp(Rt{i});
+    fprintf('Error: %.6g\n\n', err(i));
 end
-fprintf('Error: %g\n', err);
 fprintf('Time: %.2f ms\n', 10^3*tm);

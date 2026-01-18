@@ -21,7 +21,7 @@ This repository contains MATLAB, Julia, and Python implementations of the elimin
 
 The implementations have been tested on
 * MATLAB R2019b
-* Julia 1.11.3
+* Julia 1.12.1
 * Python 3.13.2 + numpy-2.2.2 + scipy-1.15.1
 
 If you use this code in your research, please cite the following paper:

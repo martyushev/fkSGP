@@ -8,6 +8,7 @@ include("solver_fkSGP.jl")
 
 function test_fkSGP()
 
+    # 6-6 SGP
     X = [zeros(1,3); 4*rand(5,3).-2]
     x = [zeros(1,3); 4*rand(5,3).-2]
     L = 2.5.*rand(6).+0.5
@@ -23,17 +24,19 @@ function test_fkSGP()
     #x = [0 0 0; 0.542805 0 0; 0.956919 -0.528915 0; 0.665885 -0.353482 1.402538; 0.478359 1.158742 0.107672; -0.137087 -0.235121 0.353913]
     #L = [1; 0.645275; 1.086284; 1.503439; 1.281933; 0.771071].^2
 
-    tm = @elapsed Rt,err = solver_fkSGP(X,x,L)
+    realOnly = 0
+
+    tm = @elapsed Rt,err = solver_fkSGP(X,x,L,realOnly)
 
     return Rt,err,tm
 
 end
 
-Rt,err,tm = test_fkSGP();
+Rt,err,tm = test_fkSGP()
 
 for i in axes(Rt,1)
     @printf "\nSolution #%d:\n" i
     display(Rt[i,:,:])
+    @printf "\nError: %.6g\n" err[i]
 end
-@printf "\nError: %.6g\n" err
-@printf "Time: %.2f ms\n" 1e3*tm
+@printf "\nTime: %.2f ms\n" 1e3*tm

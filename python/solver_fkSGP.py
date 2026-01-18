@@ -1,16 +1,17 @@
 import numpy as np
 from numpy.linalg import norm
 from scipy.sparse import csr_matrix
-from scipy.linalg import lu, solve, qr, eig
+from scipy.linalg import lu, qr, solve, eig
 
 
 
 # forward kinematics of general Stewart-Gough platform
-def solver_fkSGP(X,x,L):
+def solver_fkSGP(X,x,L,realOnly):
 
     C,U,RR = coefs_fkSGP(X,x,L)
     S = red_293x362_fkSGP(C,L[0])
-    Rt,err = S2Rt(S,C,U,RR)
+    Rt,err = S2Rt(S,C,U,RR,realOnly)
+
     return Rt,err
 
 
@@ -28,6 +29,7 @@ def coefs_fkSGP(X,x,L):
     L = L.T.flat
 
     C = np.zeros((6,46))
+
     C.flat[[32,35,38,46,47,48,49,50,51,52,53,54,78,81,84,92,93,94,95,96,97,98,99,100,124,127,130,138,139,140,141,142,143,144,145,146,170,173,176,184,185,186,187,188,189,190,191,192,216,219,222,230,231,232,233,234,235,236,237,238,262,265,268]] = 1
     C.flat[45] = -L[0]
     C.flat[80] = -4*x[1]
@@ -141,10 +143,10 @@ def coefs_fkSGP(X,x,L):
     C.flat[256] = X[5]**2+2*X[5]*x[5]+X[11]**2-2*X[11]*x[11]+X[17]**2+2*X[17]*x[17]+x[5]**2+x[11]**2+x[17]**2-L[5]
     C.flat[259] = X[5]**2+2*X[5]*x[5]+X[11]**2+2*X[11]*x[11]+X[17]**2-2*X[17]*x[17]+x[5]**2+x[11]**2+x[17]**2-L[5]
 
-    C = C/np.sqrt(np.sum(C**2,axis=1,keepdims=True))
+    C = C/norm(C,axis=1,keepdims=True)
 
-    def U(a,b,c,u,v,w):
-        return np.array([a**2*u**2,b**2*u**2,c**2*u**2,a**2*v**2,b**2*v**2,c**2*v**2,a**2*w**2,b**2*w**2,c**2*w**2,u*a**2,u*b*a,u*b**2,u*c*a,u*c**2,v*a**2,v*b*a,v*b**2,v*c*b,v*c**2,w*a**2,w*b**2,w*c*a,w*c*b,w*c**2,a**2,a*b,b**2,a*c,b*c,c**2,b*u,c*u,u**2,a*v,c*v,v**2,a*w,b*w,w**2,a,b,c,u,v,w,1])
+    def U(s):
+        return np.array([s[0]**2*s[3]**2,s[1]**2*s[3]**2,s[2]**2*s[3]**2,s[0]**2*s[4]**2,s[1]**2*s[4]**2,s[2]**2*s[4]**2,s[0]**2*s[5]**2,s[1]**2*s[5]**2,s[2]**2*s[5]**2,s[3]*s[0]**2,s[3]*s[1]*s[0],s[3]*s[1]**2,s[3]*s[2]*s[0],s[3]*s[2]**2,s[4]*s[0]**2,s[4]*s[1]*s[0],s[4]*s[1]**2,s[4]*s[2]*s[1],s[4]*s[2]**2,s[5]*s[0]**2,s[5]*s[1]**2,s[5]*s[2]*s[0],s[5]*s[2]*s[1],s[5]*s[2]**2,s[0]**2,s[0]*s[1],s[1]**2,s[0]*s[2],s[1]*s[2],s[2]**2,s[1]*s[3],s[2]*s[3],s[3]**2,s[0]*s[4],s[2]*s[4],s[4]**2,s[0]*s[5],s[1]*s[5],s[5]**2,s[0],s[1],s[2],s[3],s[4],s[5],1])
 
     return C,U,RR
 
@@ -160,11 +162,11 @@ def red_293x362_fkSGP(C,L0):
     M = M[:,218:]-M[:,:218]@M0 # Schur complement reduction
     M = M.toarray()
 
-    #p,L,_ = lu(M[:,:255],p_indices=True)
-    #p = np.argsort(p)
-    #M = M[p[-38:],255:]-L[-38:,:]@solve(L[:255,:],M[p[:255],255:])
-    Q,_ = qr(M[:,:255])
-    M = Q[:,-38:].T@M[:,255:]
+    p,L,_ = lu(M[:,:255],p_indices=True)
+    p = np.argsort(p)
+    M = M[p[-38:],255:]-L[-38:,:]@solve(L[:255,:],M[p[:255],255:])
+    #Q,_ = qr(M[:,:255])
+    #M = Q[:,-38:].T@M[:,255:]
 
     T0 = np.zeros((69,69))
     T0[[3,4,8,16,17,21,22,24,25,27,28,29,33,34,36,37,39,40,42,43,44,48,49,51,52,54,55,56,57,59,60,61,62,63,65,66,67,68],:] = -M[:,38:]
@@ -181,24 +183,23 @@ def red_293x362_fkSGP(C,L0):
 
 
 
-def S2Rt(S,C,U,RR):
+def S2Rt(S,C,U,RR,realOnly):
 
-    n = S.shape[1]
     k = 40 # number of true roots
-    e = np.ones(n)
-    for i in range(n):
-        m = U(*S[:,i]).T
-        e[i] = norm(C@m)/norm(m)
-    e,I = np.sort(e),np.argsort(e)
+    z = np.array([U(s) for s in S.T]).T
+    z = z/norm(z,axis=0)
+    e = norm(C@z,axis=0)
+    I = np.argsort(e)
     S = S[:,I[:k]] # filter out false roots
-    err = norm(e[:k])
+    err = e[I[:k]]
 
-    #S = S[:,np.all(np.isreal(S),axis=0)] # uncomment for real roots only
+    if realOnly:
+        S = S[:,np.all(np.isreal(S),axis=0)].real
+        Rt = np.empty((S.shape[1],3,4))
+    else:
+        Rt = np.empty((S.shape[1],3,4),dtype=complex)
 
-    n = S.shape[1]
-    Rt = np.empty((n,3,4),dtype=complex)
-
-    for i in range(n):
+    for i in range(S.shape[1]):
         Rt[i,:,0:3] = RR[0,:,:]@cayley(S[0:3,i])@RR[1,:,:].T
         Rt[i,:,3] = RR[0,:,:]@S[3:6,i]
 
@@ -209,5 +210,5 @@ def S2Rt(S,C,U,RR):
 def cayley(p):
     id = np.eye(3)
     T = np.array([[0, -p[2], p[1]], [p[2], 0, -p[0]], [-p[1], p[0], 0]])
-    R = solve(id-T,id+T)
+    R = solve(id - T, id + T)
     return R.T
