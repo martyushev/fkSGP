@@ -13,18 +13,27 @@ The general SGP makes no assumptions about planarity or symmetry in either the f
 
 The forward kinematics problem for a Stewart-Gough platform involves determining the position and orientation of the movable platform given the lengths of the six extensible legs and the internal geometries of the platform and base. This problem is inherently complex due to the parallel structure of the platform, resulting in a system of non-linear polynomial equations. It has been shown that the problem has exactly 40 solutions in complex space.
 
-This repository contains MATLAB, Julia, and Python implementations of the elimination template based solution to the forward kinematics problem for a general SGP. Key advantages:
+This repository contains MATLAB, Julia, and Python forward kinematics solvers for the following SGP types:
+* general 6-6 SGP
+* semi-planar 6P-6 SGP
+* fully planar 6P-6P SGP
+* general 6-5 SGP
+* semi-planar 6P-5 SGP
+* fully planar 6P-5P SGP
+
+Key advantages:
 * computation of all 40 solutions (real and complex);
 * simultaneous maintenance of numerical accuracy and computational efficiency;
-* reliance on standard linear algebra decompositions (QR and QZ);
-* extension to two special SGP cases (6-5 and 6P-6) without modification.
+* reliance on standard linear algebra decompositions (QR/PLU and QZ).
 
 The implementations have been tested on
 * MATLAB R2019b
 * Julia 1.12.1
 * Python 3.13.2 + numpy-2.2.2 + scipy-1.15.1
 
-If you use this code in your research, please cite the following paper:
+The solvers have been generated using the automatic solver generator from https://github.com/martyushev/eliminationTemplates
+
+If you use this code, please cite:
 
 @article{martyushev2025forward,<br/>
 &nbsp;&nbsp;&nbsp; title={Forward kinematics of a general Stewart--Gough platform by elimination templates},<br/>
