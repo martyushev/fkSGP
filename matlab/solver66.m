@@ -1,4 +1,4 @@
-% forward kinematics of general 6-6 Stewart-Gough platform
+% forward kinematics of general 6-6 (|^6) Stewart-Gough platform
 %
 % input:
 %  X - 6x3 matrix with coordinates of attachment points on the base
@@ -91,6 +91,7 @@ function [Rt,err] = S2Rt66(S,C,U,RR,realOnly)
     z = z./vecnorm(z);
     e = vecnorm(C*z);
     [e,I] = sort(e);
+    disp(e);
     S = S(:,I(1:k)); % filter out false roots
     err = e(1:k);
 
