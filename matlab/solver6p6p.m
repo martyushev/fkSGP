@@ -1,4 +1,4 @@
-% forward kinematics of fully planar 6P-6P Stewart-Gough platform
+% forward kinematics of fully planar 6P-6P (|^6) Stewart-Gough platform
 %
 % input:
 %  X - 6x3 matrix with coordinates of attachment points on the base
@@ -92,17 +92,18 @@ function [Rt,err] = S2Rt6p6p(S,C,U,RR,realOnly)
     z = z./vecnorm(z);
     e = vecnorm(C*z);
     [e,I] = sort(e);
+    %disp(e);
     S = S(:,I(1:k)); % filter out false roots
     err = repmat(e(1:k),1,2);
 
-    if realOnly; c = ~any(imag(S),1) & S(1,:)>0; S = S(:,c); err = err(repmat(c,1,2)); end
+    if realOnly; c = ~any(imag(S),1) & S(9,:)>0; S = S(:,c); err = err(repmat(c,1,2)); end
 
     k = size(S,2);
     Rt = cell([1,2*k]);
     for i = 1:k
-        a = sqrt(S(1,i));
-        Rt{i} = [RR{1}*cayley([a; S(2,i)/a; S(6,i)])*RR{2}', RR{1}*[S(7,i); S(8,i); S(3,i)/a]];
-        Rt{k+i} = [RR{1}*cayley([-a; -S(2,i)/a; S(6,i)])*RR{2}', RR{1}*[S(7,i); S(8,i); -S(3,i)/a]];
+        w = sqrt(S(9,i));
+        Rt{i} = [RR{1}*cayley([S([3,5],i)/w; S(6,i)])*RR{2}', RR{1}*[S(7:8,i); w]];
+        Rt{k+i} = [RR{1}*cayley([-S([3,5],i)/w; S(6,i)])*RR{2}', RR{1}*[S(7:8,i); -w]];
     end
 
 end
