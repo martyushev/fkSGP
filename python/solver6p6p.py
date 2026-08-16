@@ -6,19 +6,19 @@ from .cayley import cayley
 
 
 
-# forward kinematics of fully planar 6P-6P Stewart-Gough platform
+# forward kinematics of fully planar 6P-6P (|^6) Stewart-Gough platform
 #
 # input:
-#  X - 6x3 matrix with coordinates of attachment points on the base
+#  X: 6x3 matrix with coordinates of attachment points on the base
 #  platform, first row and last column of X are assumed to be zero
-#  x - 6x3 matrix with coordinates of attachment points on the top
+#  x: 6x3 matrix with coordinates of attachment points on the top
 #  platform, first row and last column of x are assumed to be zero
-#  L - 6-vector of squared leg lengths
-#  realOnly - real postures only flag (0/1)
+#  L: 6-vector of squared leg lengths
+#  realOnly: real postures only flag (0/1)
 #
 # output:
-#  Rt  - kx3x4 array of estimated rigid-body transformations
-#  err - k-vector of errors
+#  Rt:  kx3x4 array of estimated rigid-body transformations
+#  err: k-vector of errors
 def solver6p6p(X,x,L,realOnly):
 
     C,U,RR = coefs6p6p(X,x,L)
@@ -168,7 +168,7 @@ def S2Rt6p6p(S,C,U,RR,realOnly):
     err = np.tile(e[I[:k]],(1,2)).flatten()
 
     if realOnly:
-        c = np.all(np.isreal(S),axis=0) & (S[0,:]>0)
+        c = np.all(np.isreal(S),axis=0) & (S[8,:]>0)
         S,err = S[:,c].real,err[np.tile(c,(1,2)).flatten()]
         Rt = np.empty((2*S.shape[1],3,4))
     else:
@@ -176,10 +176,10 @@ def S2Rt6p6p(S,C,U,RR,realOnly):
 
     k = S.shape[1]
     for i in range(k):
-        a = np.sqrt(S[0,i])
-        Rt[i,:,0:3] = RR[0,:,:]@cayley(np.array([a, S[1,i]/a, S[5,i]]))@RR[1,:,:].T
-        Rt[i,:,3] = RR[0,:,:]@np.array([S[6,i], S[7,i], S[2,i]/a])
-        Rt[k+i,:,0:3] = RR[0,:,:]@cayley(np.array([-a, -S[1,i]/a, S[5,i]]))@RR[1,:,:].T
-        Rt[k+i,:,3] = RR[0,:,:]@np.array([S[6,i], S[7,i], -S[2,i]/a])
+        w = np.sqrt(S[8,i])
+        Rt[i,:,0:3] = RR[0,:,:]@cayley(np.array([S[2,i]/w, S[4,i]/w, S[5,i]]))@RR[1,:,:].T
+        Rt[i,:,3] = RR[0,:,:]@np.array([S[6,i], S[7,i], w])
+        Rt[k+i,:,0:3] = RR[0,:,:]@cayley(np.array([-S[2,i]/w, -S[4,i]/w, S[5,i]]))@RR[1,:,:].T
+        Rt[k+i,:,3] = RR[0,:,:]@np.array([S[6,i], S[7,i], -w])
 
     return Rt,err

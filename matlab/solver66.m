@@ -1,16 +1,16 @@
 % forward kinematics of general 6-6 (|^6) Stewart-Gough platform
 %
 % input:
-%  X - 6x3 matrix with coordinates of attachment points on the base
+%  X: 6x3 matrix with coordinates of attachment points on the base
 %  platform, first row of X is assumed to be zero
-%  x - 6x3 matrix with coordinates of attachment points on the top
+%  x: 6x3 matrix with coordinates of attachment points on the top
 %  platform, first row of x is assumed to be zero
-%  L - 6-vector of squared leg lengths
-%  realOnly - real postures only flag (0/1)
+%  L: 6-vector of squared leg lengths
+%  realOnly: real postures only flag (0/1)
 %
 % output:
-%  Rt  - cell k-array of 3x4 matrices with estimated rigid-body transformations
-%  err - k-vector of errors
+%  Rt:  cell k-array of 3x4 matrices with estimated rigid-body transformations
+%  err: k-vector of errors
 function [Rt,err] = solver66(X,x,L,realOnly)
 
     [C,U,RR] = coefs66(X,x,L);
@@ -91,7 +91,6 @@ function [Rt,err] = S2Rt66(S,C,U,RR,realOnly)
     z = z./vecnorm(z);
     e = vecnorm(C*z);
     [e,I] = sort(e);
-    disp(e);
     S = S(:,I(1:k)); % filter out false roots
     err = e(1:k);
 

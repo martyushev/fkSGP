@@ -6,19 +6,19 @@ from .cayley import cayley
 
 
 
-# forward kinematics of general 6-6 Stewart-Gough platform
+# forward kinematics of general 6-6 (|^6) Stewart-Gough platform
 #
 # input:
-#  X - 6x3 matrix with coordinates of attachment points on the base
+#  X: 6x3 matrix with coordinates of attachment points on the base
 #  platform, first row of X is assumed to be zero
-#  x - 6x3 matrix with coordinates of attachment points on the top
+#  x: 6x3 matrix with coordinates of attachment points on the top
 #  platform, first row of x is assumed to be zero
-#  L - 6-vector of squared leg lengths
-#  realOnly - real postures only flag (0/1)
+#  L: 6-vector of squared leg lengths
+#  realOnly: real postures only flag (0/1)
 #
 # output:
-#  Rt  - kx3x4 array of estimated rigid-body transformations
-#  err - k-vector of errors
+#  Rt:  kx3x4 array of estimated rigid-body transformations
+#  err: k-vector of errors
 def solver66(X,x,L,realOnly):
 
     C,U,RR = coefs66(X,x,L)

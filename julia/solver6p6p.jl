@@ -1,16 +1,16 @@
-# forward kinematics of fully planar 6P-6P Stewart-Gough platform
+# forward kinematics of fully planar 6P-6P (|^6) Stewart-Gough platform
 #
 # input:
-#  X - 6x3 matrix with coordinates of attachment points on the base
+#  X: 6x3 matrix with coordinates of attachment points on the base
 #  platform, first row and last column of X are assumed to be zero
-#  x - 6x3 matrix with coordinates of attachment points on the top
+#  x: 6x3 matrix with coordinates of attachment points on the top
 #  platform, first row and last column of x are assumed to be zero
-#  L - 6-vector of squared leg lengths
-#  realOnly - real postures only flag (0/1)
+#  L: 6-vector of squared leg lengths
+#  realOnly: real postures only flag (0/1)
 #
 # output:
-#  Rt  - kx3x4 array of estimated rigid-body transformations
-#  err - k-vector of errors
+#  Rt:  kx3x4 array of estimated rigid-body transformations
+#  err: k-vector of errors
 function solver6p6p(X::Matrix{Float64},x::Matrix{Float64},L::Vector{Float64},realOnly::Int)
 
     C,U,RR = coefs6p6p(X,x,L)
@@ -104,7 +104,7 @@ function S2Rt6p6p(S,C,U,RR,realOnly)
     err = repeat(e[I[1:k]],1,2)
 
     if Bool(realOnly)
-        c = vec(all(c->isreal(c),S;dims=1) .& (real.(S[1,:])'.>0))
+        c = vec(all(c->isreal(c),S;dims=1) .& (real.(S[9,:])'.>0))
         S,err = S[:,c],err[repeat(c,1,2)]
         Rt = Array{Float64,3}(undef,2*size(S,2),3,4)
     else
@@ -113,11 +113,11 @@ function S2Rt6p6p(S,C,U,RR,realOnly)
 
     k = size(S,2)
     for i in 1:k
-        a = sqrt(S[1,i])
-        Rt[i,:,1:3] = RR[1,:,:]*cayley([a; S[2,i]/a; S[6,i]])*RR[2,:,:]'
-        Rt[i,:,4] = RR[1,:,:]*[S[7,i]; S[8,i]; S[3,i]/a]
-        Rt[k+i,:,1:3] = RR[1,:,:]*cayley([-a; -S[2,i]/a; S[6,i]])*RR[2,:,:]'
-        Rt[k+i,:,4] = RR[1,:,:]*[S[7,i]; S[8,i]; -S[3,i]/a]
+        w = sqrt(S[9,i])
+        Rt[i,:,1:3] = RR[1,:,:]*cayley([S[3,i]/w; S[5,i]/w; S[6,i]])*RR[2,:,:]'
+        Rt[i,:,4] = RR[1,:,:]*[S[7,i]; S[8,i]; w]
+        Rt[k+i,:,1:3] = RR[1,:,:]*cayley([-S[3,i]/w; -S[5,i]/w; S[6,i]])*RR[2,:,:]'
+        Rt[k+i,:,4] = RR[1,:,:]*[S[7,i]; S[8,i]; -w]
     end
 
     return Rt,err
