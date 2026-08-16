@@ -28,8 +28,8 @@ Key advantages:
 
 The implementations have been tested on
 * MATLAB R2019b
-* Julia 1.12.1
-* Python 3.13.2 + numpy-2.2.2 + scipy-1.15.1
+* Julia 1.12.7
+* Python 3.14.7 + numpy-2.5.2 + scipy-1.18.0
 
 The solvers have been generated using the automatic solver generator from https://github.com/martyushev/eliminationTemplates
 
